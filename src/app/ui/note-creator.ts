@@ -82,7 +82,7 @@ export class NoteCreator{
         const { title, value , color} = this.newNote;
         console.log("called")
         if(value && title){
-            this.createNote.next({ title, value })
+            this.createNote.next({ title, value , color})
             this.reset()
             this.toggle(false)
         }
