@@ -4,6 +4,7 @@
 import {Component, OnDestroy} from '@angular/core'
 import { NotesService } from '../services'
 import {Store} from "../store";
+import {Subscription} from "rxjs";
 @Component({
     selector: 'notes-container',
     styles:
@@ -39,30 +40,35 @@ import {Store} from "../store";
 
 export class Notes implements OnDestroy {
 
+    notesSub: Subscription
+
+    /**
+     * Although the Notes container is destroyed each time, the subscription is not.
+     * In fact, that subscription will keep the notes container object alive in memory even though we think of it as destroyed.
+     * Each time when we initialize the notes container, a new container object is created, while the old ones still linger in memory
+     */
     ngOnDestroy(): void {
-        console.log('destroyed')
+        this.notesSub.unsubscribe(); // To avoid memory leaks
     }
 
-    constructor(
-        private noteService: NotesService,
-        private store: Store
-    ){
+    constructor(private noteService: NotesService,
+                private store: Store) {
         this.noteService.getNotes()
             .subscribe()
 
-        this.store.changes
+        this.notesSub = this.store.changes
             .map((data => data.notes))
             .subscribe(notes => this.notes = notes)
     }
 
     notes = []
 
-    onNoteChecked(note){
+    onNoteChecked(note) {
         this.noteService.completeNote(note)
             .subscribe()
     }
 
-    onCreateNote(note){
+    onCreateNote(note) {
         this.noteService.createNote(note)
             .subscribe()
     }
