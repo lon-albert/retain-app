@@ -77,7 +77,6 @@ export class NoteCreator{
     fullForm: boolean = false
 
     onCreateNote(){
-        console.log("called")
 
         const { title, value , color} = this.newNote;
         console.log("called")

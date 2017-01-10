@@ -42,6 +42,8 @@ export class Notes implements OnDestroy {
 
     notesSub: Subscription
 
+    notes = []
+
     /**
      * Although the Notes container is destroyed each time, the subscription is not.
      * In fact, that subscription will keep the notes container object alive in memory even though we think of it as destroyed.
@@ -60,8 +62,6 @@ export class Notes implements OnDestroy {
             .map((data => data.notes))
             .subscribe(notes => this.notes = notes)
     }
-
-    notes = []
 
     onNoteChecked(note) {
         this.noteService.completeNote(note)
