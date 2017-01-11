@@ -14,7 +14,7 @@ import {Observable} from "rxjs";
 export class AuthService implements CanActivate{
 
     JWT_KEY: string = 'retain_token'
-    JWT: string = ''
+    JWT: string = 'hgfhfghf'
 
     constructor(
         private router : Router,

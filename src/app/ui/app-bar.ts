@@ -2,6 +2,8 @@
  * Created by lon on 1/6/17.
  */
 import { Component } from '@angular/core'
+import { AuthService } from '../services'
+import { Router } from '@angular/router'
 
 @Component({
     selector: 'app-bar',
@@ -36,11 +38,23 @@ import { Component } from '@angular/core'
               <nav class="col-xs-2">
                 <div class="row middle-xs between-xs">
                   <span [routerLink]="['', 'about']" class="link">About</span>
-                  <span class="link">signout</span>
+                  <span (click)="signout()" class="link">signout</span>
                 </div>
               </nav>
             </header>
         `
 })
 
-export class AppBar{}
+export class AppBar{
+    constructor(
+        private auth: AuthService,
+        private router: Router
+    ){
+
+    }
+
+    signout(){
+        this.auth.signOut()
+        this.router.navigate(['auth'])
+    }
+}
